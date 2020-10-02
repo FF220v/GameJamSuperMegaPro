@@ -11,7 +11,7 @@ public class BlockMove : MonoBehaviour
 	int stageInd=0;
 	Color floorClr=new Color(.3f,.3f,.1f,1f);
 	Color targetClr=new Color(.0f,.5f,.0f,1f);
-	float floorY=0.1f;
+	// float floorY=0.1f;
 	int blMovTimer=0;
 	public Controls pl;
 	float blockSpeed = 0.07f;
@@ -46,46 +46,46 @@ public class BlockMove : MonoBehaviour
     }
 
     // Update is called once per frame
-  //   void Update(){
-  //       if(Input.GetKeyDown("p")){
-  //       	targInd=-1;
-  //       }
-  //       if(Input.GetKeyDown("l")){
-  //       	string str=",new double[]{";
-  //       	str+=Array.IndexOf(blocks,pl.floorBlock);
-  //       	foreach(GameObject obj in blocks){
-  //       		str+=","+obj.transform.position.x+","+obj.transform.position.y+","+obj.transform.position.z;
-  //       	}
-  //       	str += "}"; 
-  //       	Debug.Log(str);
-		// }
-		// if(targets!=null&&blMovTimer--<0){
-		// 	int flag=0;
-		// 	for(int i=0;i<blocks.Length;i++){
-		// 		Transform bl=blocks[i].transform;
-		// 		float dist=1f-Mathf.Min(.5f,(bl.position-pl.transform.position).magnitude*.03f);
-		// 		Vector3 dif=bl.position-targets[i];
-		// 		if(dif.x!=0){
-		// 			if(Mathf.Abs(dif.x)<=blockSpeed)bl.position=new Vector3(targets[i].x,bl.position.y,bl.position.z);
-		// 			else bl.Translate(-Vector3.right*Mathf.Sign(dif.x)*blockSpeed*dist);
-		// 		}else if(dif.y!=0){
-		// 			// if((bl.position.y-floorY)*(bl.position.y+dif.y-floorY)<0)
-		// 			// blocks[i].GetComponent<Renderer>().material.color = Color.grey+Color.grey;//Mathf.Min(.5f,bl.position.y*.05f)*Color.white;//*(bl.position.y+dif.y>floorY?-1:1);
-		// 			if(Mathf.Abs(dif.y)<=blockSpeed)bl.position=new Vector3(bl.position.x,targets[i].y,bl.position.z);
-		// 			else bl.Translate(-Vector3.up*Mathf.Sign(dif.y)*blockSpeed*dist);
-		// 		}else if(dif.z!=0){
-		// 			if(Mathf.Abs(dif.z)<=blockSpeed)bl.position=new Vector3(bl.position.x,bl.position.y,targets[i].z);
-		// 			else bl.Translate(-Vector3.forward*Mathf.Sign(dif.z)*blockSpeed*dist);
-		// 		}else {flag+=1;}
-		// 	}
-		// 	if(flag==blocks.Length){
-		// 		Debug.Log("End stage building");
-		// 		targets=null;
-	 //    		blocks[targInd].GetComponent<Renderer>().material.color += targetClr;
-	 //    		if(pl.floorBlock==blocks[targInd])newFloorBlock(blocks[targInd]);
-		// 	}
-		// }
-  //   }
+    void Update(){
+        if(Input.GetKeyDown("p")){
+        	targInd=-1;
+        }
+        if(Input.GetKeyDown("l")){
+        	string str=",new double[]{";
+        	str+=Array.IndexOf(blocks,pl.floorBlock);
+        	foreach(GameObject obj in blocks){
+        		str+=","+obj.transform.position.x+","+obj.transform.position.y+","+obj.transform.position.z;
+        	}
+        	str += "}"; 
+        	Debug.Log(str);
+		}
+		if(targets!=null&&blMovTimer--<0){
+			int flag=0;
+			for(int i=0;i<blocks.Length;i++){
+				Transform bl=blocks[i].transform;
+				float dist=1f-Mathf.Min(.5f,(bl.position-pl.transform.position).magnitude*.03f);
+				Vector3 dif=bl.position-targets[i];
+				if(dif.x!=0){
+					if(Mathf.Abs(dif.x)<=blockSpeed)bl.position=new Vector3(targets[i].x,bl.position.y,bl.position.z);
+					else bl.Translate(-Vector3.right*Mathf.Sign(dif.x)*blockSpeed*dist);
+				}else if(dif.y!=0){
+					// if((bl.position.y-floorY)*(bl.position.y+dif.y-floorY)<0)
+					// blocks[i].GetComponent<Renderer>().material.color = Color.grey+Color.grey;//Mathf.Min(.5f,bl.position.y*.05f)*Color.white;//*(bl.position.y+dif.y>floorY?-1:1);
+					if(Mathf.Abs(dif.y)<=blockSpeed)bl.position=new Vector3(bl.position.x,targets[i].y,bl.position.z);
+					else bl.Translate(-Vector3.up*Mathf.Sign(dif.y)*blockSpeed*dist);
+				}else if(dif.z!=0){
+					if(Mathf.Abs(dif.z)<=blockSpeed)bl.position=new Vector3(bl.position.x,bl.position.y,targets[i].z);
+					else bl.Translate(-Vector3.forward*Mathf.Sign(dif.z)*blockSpeed*dist);
+				}else {flag+=1;}
+			}
+			if(flag==blocks.Length){
+				// Debug.Log("End stage building");
+				targets=null;
+	    		blocks[targInd].GetComponent<Renderer>().material.color += targetClr;
+	    		if(pl.floorBlock==blocks[targInd])newFloorBlock(blocks[targInd]);
+			}
+		}
+    }
 
     public void newFloorBlock(GameObject fb){
     	if(pl.gameObject.transform.position.y<2.2 && stageInd!=0)
@@ -101,8 +101,8 @@ public class BlockMove : MonoBehaviour
     void setNextStage(int st){
     	stageInd=st;
     	blMovTimer=30;
-		double[] lst=stages[st];
-		Debug.Log("new Stage "+ stageInd+" ");
+			double[] lst=stages[st];
+			// Debug.Log("new Stage "+ stageInd+" ");
 	    if(targInd>=0&&targets==null)blocks[targInd].GetComponent<Renderer>().material.color -= targetClr;
     	if(lst.Length!=1+blocks.Length*3)Debug.Log("STAGE ERROR");
     	else{

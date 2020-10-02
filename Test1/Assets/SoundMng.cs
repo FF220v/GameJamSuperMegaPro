@@ -14,7 +14,7 @@ public class SoundMng : MonoBehaviour
         // aus.PlayOneShot(backSnd);
     }
     public void playSound(string name){
-    	Debug.Log("SOUND");
+    	// Debug.Log("SOUND");
         aus.PlayOneShot(jumpSnd);
     }
 }

@@ -1,18 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameMain : MonoBehaviour
+public class GameMain:MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
+    void Start() {
+        Debug.Log("START!");
+        SOUND_MNG.Init();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Update() {
+        if(Input.GetKeyDown("z")){
+            SceneManager.LoadScene (SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 }

@@ -8,10 +8,10 @@ public class Controls : MonoBehaviour {
 	public float jumpForce=30f;
 	public bool moving=false;
 	public SphereCollider spCol;
-  	public LayerMask groundLays;
-  	public GameObject floorBlock=null;
-  	BlockMove bmov;
-  	SoundMng smn;
+	public LayerMask groundLays;
+	public GameObject floorBlock=null;
+	BlockMove bmov;
+	SoundMng smn;
 	// public bool isGrounded=false;
 
 	void Start(){
