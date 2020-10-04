@@ -7,11 +7,18 @@ public class PlControl : MonoBehaviour
     public Transform worldDisc;
     public float spX=1f, spY=1f, friction=.9f, jump=10f;
     public LayerMask worldlayer=-1, interLayer=-1;
+    public Camera playerCamera;
+    public GameObject globalLightSource;
+    public Material skyboxNight;
+    public Material skyboxDay;
+    public Material skyboxTransition;
     float freePosX, freePosY, vx, vz;//prefreePosX, prefreePosY,
     bool ePressed=false;
     Interactable target=null;
     Rigidbody rb;
     Animator animator;
+    Skybox skybox;
+    Light globalLight;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +28,8 @@ public class PlControl : MonoBehaviour
         freePosY=worldDisc.eulerAngles.y;
         rb=GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        skybox = playerCamera.GetComponent<Skybox>();
+        globalLight = globalLightSource.GetComponent<Light>();
     }
 
     private void Update() {
@@ -56,7 +65,7 @@ public class PlControl : MonoBehaviour
                 // Debug.Log("No collision!");
             }
         }
-		int dx=0, dy=0;
+        int dx=0, dy=0;
 		float mult=1f;
 		if (Input.GetKey("d")){dx++;}
 		if (Input.GetKey("w")){dy--;}
@@ -79,6 +88,40 @@ public class PlControl : MonoBehaviour
         }else{
             if(target){target.unlightMe();target=null;}
         }
+
+        // Handling other object's stuff
+        float rotation = worldDisc.eulerAngles.y;
+        animator.SetFloat("speed", Mathf.Sqrt(50 * vx * vx + vz * vz));
+
+
+        // Selecting day/night depending on disk angle with smooth transitions each 90 degrees
+        if (rotation > 270f)
+        {
+            globalLight.color = new Color(93f / 255f, 113f / 255f, 255f / 255f);
+            globalLight.intensity = 0.3f;
+            skybox.material = skyboxNight;
+        }
+        else if (rotation > 180f && rotation < 270f)
+        {
+            globalLight.color = new Color((255f - 162f * (rotation - 180f) / 90f) / 255f, (255f - 142f * (rotation - 180f) / 90f) / 255f, 255f / 255f);
+            globalLight.intensity = 1.4f - 1.1f * (rotation - 180f) / 90f;
+            skybox.material = skyboxTransition;
+        }
+        else if (rotation > 90f && rotation < 180f) {
+            globalLight.color = new Color(1.0f, 1.0f, 1.0f);
+            globalLight.intensity = 1.4f;
+            skybox.material = skyboxDay;
+        }
+        else if (rotation > 0f)
+        {
+            globalLight.color = new Color((93f + 162f * rotation / 90f) / 255f, (113f + 142f * rotation / 90f) / 255f, 255f / 255f);
+            globalLight.intensity = 0.3f + 1.1f * rotation / 90f;
+            skybox.material = skyboxTransition;
+        }
+
+        skybox.material.SetFloat("_Rotation", worldDisc.eulerAngles.y);
+
+        //skybox.material.SetFloat("_Exposure", 1.5f - 1.2f * rotation / 360);
     }
     public void addSpeed(Vector3 val){
         rb.velocity+=Vector3.up*val.y;
