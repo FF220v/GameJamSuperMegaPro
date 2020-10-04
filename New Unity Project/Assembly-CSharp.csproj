@@ -36,12 +36,17 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\CanvDialog.cs" />
+     <Compile Include="Assets\Floors.cs" />
      <Compile Include="Assets\InterMoving.cs" />
      <Compile Include="Assets\InterPC.cs" />
      <Compile Include="Assets\InterPerson.cs" />
      <Compile Include="Assets\Interactable.cs" />
+     <Compile Include="Assets\Liv.cs" />
      <Compile Include="Assets\MovField.cs" />
+     <Compile Include="Assets\PlCamera.cs" />
      <Compile Include="Assets\PlControl.cs" />
+     <Compile Include="Assets\Static.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
