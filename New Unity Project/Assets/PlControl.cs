@@ -32,7 +32,7 @@ public class PlControl : MonoBehaviour
     {
         bool collis=false;
         if(vx!=0||vy!=0){
-            if(Physics.CheckSphere(transform.position,.5f,worldlayer)){//Vector3.one*.5f,Quaternion.identity,
+            if(Physics.CheckSphere(transform.position, GetComponent<CapsuleCollider>().radius, worldlayer)){//Vector3.one*.5f,Quaternion.identity,
                 // Debug.Log("collision! ");
                 collis=true;
                 worldDisc.position=new Vector3(freePosX,0,0);
