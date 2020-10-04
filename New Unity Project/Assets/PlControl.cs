@@ -79,10 +79,12 @@ public class PlControl : MonoBehaviour
 		// if (ePressed){
         //     ePressed=false;
         Collider[] lst=Physics.OverlapSphere(transform.position,1.5f,interLayer);
-        if(lst.Length>0){
-            if(target!=lst[0]){
+        Interactable intt=null;
+        foreach(var col in lst)if(col.gameObject.GetComponent<Interactable>().activeI)intt=col.gameObject.GetComponent<Interactable>();
+        if(intt!=null){
+            if(target!=intt){
                 if(target)target.unlightMe();
-                target=lst[0].GetComponent<Interactable>();
+                target=intt;
                 target.lightMe();
             }
         }else{

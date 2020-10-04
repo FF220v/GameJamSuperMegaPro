@@ -7,6 +7,7 @@ public class InterMoving : Interactable
     Vector3 strtPos, targPos, strtRot, targRot;
     bool move=false, pause=false;
     public float speed=1f;
+    public Vector3 dir=Vector3.right;
     Transform par;
     // public LayerMask playerLayer;
     void Start()
@@ -14,7 +15,7 @@ public class InterMoving : Interactable
         par=transform;
         strtPos=par.localPosition;
         strtRot=par.rotation.eulerAngles;
-        targPos=strtPos+Vector3.right;
+        targPos=strtPos+dir;
         Debug.Log("tar "+strtPos+" "+targPos);
     }
 
@@ -46,7 +47,7 @@ public class InterMoving : Interactable
     //     }
     // }
     
-    public override void interact(){
+    public override void interact(int val=0){
         Debug.Log("Interaction! MOVING");
         move=true;
     }
