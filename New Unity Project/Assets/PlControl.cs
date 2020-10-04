@@ -11,6 +11,7 @@ public class PlControl : MonoBehaviour
     bool ePressed=false;
     Interactable target=null;
     Rigidbody rb;
+    Animator animator;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +20,7 @@ public class PlControl : MonoBehaviour
         freePosX=worldDisc.position.x;
         freePosY=worldDisc.eulerAngles.y;
         rb=GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update() {
@@ -63,6 +65,7 @@ public class PlControl : MonoBehaviour
 		if((dx+dy)%2==0)mult=0.7f; 
         vx=(vx-dx*mult*spX*.01f)*friction;
         vz=(vz+dy*mult*spY*.01f)*friction;
+        animator.SetFloat("speed", Mathf.Sqrt(50 * vx * vx + vz * vz));
 
 		// if (ePressed){
         //     ePressed=false;
