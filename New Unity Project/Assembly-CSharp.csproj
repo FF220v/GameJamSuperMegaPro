@@ -36,6 +36,9 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\InterPC.cs" />
+     <Compile Include="Assets\InterPerson.cs" />
+     <Compile Include="Assets\Interactable.cs" />
      <Compile Include="Assets\PlControl.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.11f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
@@ -572,9 +575,34 @@
       <Name>Unity.Timeline.Editor</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="Unity.ProGrids.csproj">
+      <Project>{174753c7-5ee6-05ec-289d-f198edfa9999}</Project>
+      <Name>Unity.ProGrids</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="Unity.VSCode.Editor.csproj">
       <Project>{f065fe02-6efa-2ffb-dc1e-cb733254dfaf}</Project>
       <Name>Unity.VSCode.Editor</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="Unity.ProBuilder.csproj">
+      <Project>{7c15d22f-2fa4-d8f5-6ee6-88a0c7635423}</Project>
+      <Name>Unity.ProBuilder</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="Unity.ProBuilder.Editor.csproj">
+      <Project>{ffa3f2bc-1632-8f27-b237-3ca33b8ea417}</Project>
+      <Name>Unity.ProBuilder.Editor</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="Unity.ProBuilder.AssetIdRemapUtility.csproj">
+      <Project>{7c4d9d4f-e58e-2132-96e8-26c4eef2d24a}</Project>
+      <Name>Unity.ProBuilder.AssetIdRemapUtility</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="Unity.ProGrids.Editor.csproj">
+      <Project>{655ec3cf-2f4a-078f-d5bf-c867b888eeef}</Project>
+      <Name>Unity.ProGrids.Editor</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.Editor.csproj">
@@ -602,6 +630,11 @@
       <Name>Unity.Rider.Editor</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+    <ProjectReference Include="Unity.ProBuilder.AddOns.Editor.csproj">
+      <Project>{1bfb7295-f8b7-19b8-c63b-eed1d4f5394e}</Project>
+      <Name>Unity.ProBuilder.AddOns.Editor</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
     <ProjectReference Include="Unity.TextMeshPro.csproj">
       <Project>{230dbdc1-e576-b80d-f998-df084aab2e0d}</Project>
       <Name>Unity.TextMeshPro</Name>
@@ -610,36 +643,6 @@
     <ProjectReference Include="UnityEditor.UI.csproj">
       <Project>{f09ed546-8867-0dc1-25dd-0d8144eb4b31}</Project>
       <Name>UnityEditor.UI</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="Unity.ProBuilder.csproj">
-      <Project>{7c15d22f-2fa4-d8f5-6ee6-88a0c7635423}</Project>
-      <Name>Unity.ProBuilder</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="Unity.ProBuilder.Editor.csproj">
-      <Project>{ffa3f2bc-1632-8f27-b237-3ca33b8ea417}</Project>
-      <Name>Unity.ProBuilder.Editor</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="Unity.ProBuilder.AssetIdRemapUtility.csproj">
-      <Project>{7c4d9d4f-e58e-2132-96e8-26c4eef2d24a}</Project>
-      <Name>Unity.ProBuilder.AssetIdRemapUtility</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="Unity.ProBuilder.AddOns.Editor.csproj">
-      <Project>{1bfb7295-f8b7-19b8-c63b-eed1d4f5394e}</Project>
-      <Name>Unity.ProBuilder.AddOns.Editor</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="Unity.ProGrids.csproj">
-      <Project>{174753c7-5ee6-05ec-289d-f198edfa9999}</Project>
-      <Name>Unity.ProGrids</Name>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="Unity.ProGrids.Editor.csproj">
-      <Project>{655ec3cf-2f4a-078f-d5bf-c867b888eeef}</Project>
-      <Name>Unity.ProGrids.Editor</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

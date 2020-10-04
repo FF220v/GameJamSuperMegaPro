@@ -5,19 +5,53 @@ using UnityEngine;
 public class PlControl : MonoBehaviour
 {
     public Transform worldDisc;
-    public float spX=1f;
-    public float spY=1f;
-    public LayerMask worldlayer;
+    public float spX=1f, spY=1f, friction=.9f;
+    public LayerMask worldlayer, interLayer;
+    float freePosX, freePosY, vx, vy;//prefreePosX, prefreePosY,
+    bool ePressed=false;
+    Interactable target=null;
 
     // Start is called before the first frame update
     void Start()
     {
         Debug.Log("Start cntrl");
+        freePosX=worldDisc.position.x;
+        freePosY=worldDisc.eulerAngles.y;
+    }
+
+    private void Update() {
+        
+		if (Input.GetKeyDown("e")){
+            // ePressed=true;
+            if(target)target.interact();
+        }
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        bool collis=false;
+        if(vx!=0||vy!=0){
+            if(Physics.CheckSphere(transform.position,.5f,worldlayer)){//Vector3.one*.5f,Quaternion.identity,
+                // Debug.Log("collision! ");
+                collis=true;
+                worldDisc.position=new Vector3(freePosX,0,0);
+                worldDisc.eulerAngles = new Vector3(0,freePosY,0);
+                // worldDisc.position-=new Vector3(vx,0,0);
+                // worldDisc.eulerAngles -= new Vector3(0,vy,0);
+                vx=-0;
+                vy=-vy*.5f;
+            }else{
+                // if(prefreePosX!=worldDisc.position.x)prefreePosX=freePosX;
+                // if(prefreePosY!=worldDisc.eulerAngles.y)prefreePosY=freePosY;
+                freePosX=worldDisc.position.x;
+                freePosY=worldDisc.eulerAngles.y;
+                worldDisc.position+=new Vector3(vx,0,0);
+                worldDisc.eulerAngles += new Vector3(0,vy,0);
+                // Debug.Log("No collision!");
+            }
+        }
+        // if(collis)return;
 		int dx=0, dy=0;
 		float mult=1f;
 		if (Input.GetKey("d")){dx++;}
@@ -25,12 +59,21 @@ public class PlControl : MonoBehaviour
 		if (Input.GetKey("a")){dx--;}
 		if (Input.GetKey("s")){dy++;}
 		if((dx+dy)%2==0)mult=0.7f; 
+        vx=(vx-dx*mult*spX*.01f)*friction;
+        vy=(vy+dy*mult*spY*.01f)*friction;
 
-        worldDisc.position+=new Vector3(-dx*mult*spX*.1f,0,0);
-        worldDisc.eulerAngles += new Vector3(0,dy*.1f*mult*spY,0);
-        if(Physics.CheckBox(transform.position,Vector3.one*.5f,Quaternion.identity,worldlayer))
-            Debug.Log("collision!");
-        // else Debug.Log("Ncollision!");
+		// if (ePressed){
+        //     ePressed=false;
+        Collider[] lst=Physics.OverlapSphere(transform.position,1.5f,interLayer);
+        if(lst.Length>0){
+            if(target!=lst[0]){
+                if(target)target.unlightMe();
+                target=lst[0].GetComponent<Interactable>();
+                target.lightMe();
+            }
+        }else{
+            if(target){target.unlightMe();target=null;}
+        }
     }
 
     void OnCollisionEnter() {
