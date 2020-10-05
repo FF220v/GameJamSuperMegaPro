@@ -32,6 +32,7 @@ public class PlControl : MonoBehaviour
     List<Interactable> interList=new List<Interactable>();
     int dayNum=0;
     public bool wasOthSide=false;
+    float worldMin = -9,worldMax = 5;
     Skybox skybox;
     Light globalLight;
 
@@ -59,7 +60,7 @@ public class PlControl : MonoBehaviour
                 }
             } else if(run && destruTimer<=-23)destruTimer=23;
         }
-		if (Input.GetKey(KeyCode.Space) && Physics.CheckBox(transform.position-Vector3.up*transform.localScale.y*.3f,transform.localScale*.3f,Quaternion.identity,worldlayer)){
+		if (Input.GetKeyDown(KeyCode.Space) && Physics.CheckBox(transform.position-Vector3.up*transform.localScale.y*.5f,transform.localScale*.1f,Quaternion.identity,worldlayer)){
            rb.velocity=new Vector3(0,jump,0);
         }
     }
@@ -84,6 +85,7 @@ public class PlControl : MonoBehaviour
                 freePosX=worldDisc.position.x;
                 freePosY=worldDisc.eulerAngles.y;
                 worldDisc.position+=new Vector3(vx,0,0);
+                if(worldDisc.position.x>worldMax || worldDisc.position.x<worldMin)worldDisc.position-=new Vector3(vx,0,0);
                 worldDisc.eulerAngles += new Vector3(0,vz,0);
                 if(worldDisc.eulerAngles.y>100&&worldDisc.eulerAngles.y<200) wasOthSide=true;
                 // Debug.Log("No collision!"+worldDisc.rotation.y);
