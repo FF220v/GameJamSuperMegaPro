@@ -35,10 +35,10 @@ public class InterMoving : Interactable
                 move=false;
             }else{
                 // Debug.Log("bef "+dif+" "+tran.position+" "+tran.localPosition+" "+targPos);
-                tran.localPosition+=dif*1f;
+                tran.localPosition+=dif*.3f;
                 // tran.position+=new Vector3(Mathf.Clamp(dif.x*speed,-.1f,.1f),Mathf.Clamp(dif.y*speed,-.1f,.1f),Mathf.Clamp(dif.z*speed,-.1f,.1f));
                 if(Physics.CheckBox(transform.position,transform.localScale*.5f,transform.rotation,LayerMask.GetMask("Player")))
-                    tran.localPosition-=dif*1f;
+                    tran.localPosition-=dif*.3f;
                     // tran.position-=new Vector3(Mathf.Clamp(dif.x*speed,-.1f,.1f),Mathf.Clamp(dif.y*speed,-.1f,.1f),Mathf.Clamp(dif.z*speed,-.1f,.1f));
                 // Debug.Log("aft "+dif+" "+tran.position+" "+tran.localPosition+" "+targPos);
                 // Debug.Log("aft "+tran.position);

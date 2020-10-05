@@ -31,6 +31,6 @@ public class InterPerson : Interactable
     public override void startNewDay(int day)
     {
         di.state=0;
-        
+        txt.text="";
     }
 }

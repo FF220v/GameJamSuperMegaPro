@@ -23,7 +23,7 @@ public class PlControl : MonoBehaviour
     [SerializeField]
     bool run=false;
     Interactable target=null;
-    Rigidbody rb;
+    public Rigidbody rb;
     Animator animator;
     public GameObject partiDestr;
     public GameObject partiSpeed;
@@ -31,6 +31,7 @@ public class PlControl : MonoBehaviour
     int destruTimer=-23;
     List<Interactable> interList=new List<Interactable>();
     public bool wasOthSide=false;
+    public InterMoving bedDoor;
     float worldMin = -9,worldMax = 5;
     Skybox skybox;
     Light globalLight;
@@ -86,7 +87,7 @@ public class PlControl : MonoBehaviour
                 worldDisc.position+=new Vector3(vx,0,0);
                 if(worldDisc.position.x>worldMax || worldDisc.position.x<worldMin)worldDisc.position-=new Vector3(vx,0,0);
                 worldDisc.eulerAngles += new Vector3(0,vz,0);
-                if(worldDisc.eulerAngles.y>100&&worldDisc.eulerAngles.y<200) wasOthSide=true;
+                if(!wasOthSide && worldDisc.eulerAngles.y>100&&worldDisc.eulerAngles.y<200){ wasOthSide=true; bedDoor.startNewDay(0);}
                 // Debug.Log("No collision!"+worldDisc.rotation.y);
             }
         }

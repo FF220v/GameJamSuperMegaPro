@@ -40,6 +40,7 @@
      <Compile Include="Assets\CanvDialog.cs" />
      <Compile Include="Assets\Field.cs" />
      <Compile Include="Assets\Floors.cs" />
+     <Compile Include="Assets\FlyField.cs" />
      <Compile Include="Assets\InterMoving.cs" />
      <Compile Include="Assets\InterPC.cs" />
      <Compile Include="Assets\InterPerson.cs" />

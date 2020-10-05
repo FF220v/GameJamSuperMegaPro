@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class BossNPC : InterPerson
 {
-    public InterMoving door;
+    public InterMoving door1;
+    public InterMoving door21;
+    public InterMoving door22;
     public InterPC pc;
     void Start()
     {
         base.Start();
-        di=new MyDialog(door,pc);
+        di=new MyDialog(door1,door21,door22,pc);
     }
     class MyDialog:Dialog{
-        Interactable door;
+        Interactable door1;
+        Interactable door21;
+        Interactable door22;
         InterPC pc;
-        public MyDialog(Interactable doora,InterPC pcc){door=doora;pc=pcc;}
+        public MyDialog(Interactable doora1,Interactable doora2,Interactable doora3,InterPC pcc){door1=doora1;door21=doora2;door22=doora3;pc=pcc;}
         public override DLine getNextLine(int val=0){
             string str="";
             int code=0, nexts=state+1;
@@ -25,7 +29,7 @@ public class BossNPC : InterPerson
                         case 1:str="to inform you"; break;
                         case 2: str="that you are promoted"; break;
                         case 3: str="to the Second floor."; break;
-                        case 4:str="Have a nice life."; door.activeI=true; door.interact(); nexts=0; break;
+                        case 4:str="Have a nice life."; nexts=0;if(door21.activeI)break; door1.activeI=true; door1.interact();door21.activeI=true; door21.interact();door22.activeI=true; door22.interact(); break;
                         default: break;
                     }
                 break;
@@ -39,7 +43,7 @@ public class BossNPC : InterPerson
                             else if(pc.typing<3){str="Now Do More Typing."; nexts=2;}
                             else str="You're free. For next 10 hours.";
                          break;
-                        case 3:str="Go away"; door.activeI=true; door.interact(); break;
+                        case 3:str="Go away"; door1.activeI=true; door1.interact(); break;
                         default: break;
                     }
                 else
@@ -57,6 +61,6 @@ public class BossNPC : InterPerson
     public override void startNewDay(int day)
     {
         base.startNewDay(day);
-        if(DAY.tower==0)door.activeI=false;
+        if(DAY.tower==0)door1.activeI=false;
     }
 }
