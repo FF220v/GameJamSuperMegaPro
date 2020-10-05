@@ -11,6 +11,14 @@ public class PlControl : MonoBehaviour
     [SerializeField]
     float vx, vz;//prefreePosX, prefreePosY,
     float freePosX, freePosY;
+    public Camera playerCamera;
+    public GameObject globalLightSource;
+    public Material skyboxNight;
+    public Material skyboxDay;
+    public Material skyboxTransition;
+    public Material skyboxTransitionLighter;
+    public Material skyboxTransitionDarker;
+
     bool ePressed=false;
     [SerializeField]
     bool run=false;
@@ -24,6 +32,8 @@ public class PlControl : MonoBehaviour
     List<Interactable> interList=new List<Interactable>();
     int dayNum=0;
     public bool wasOthSide=false;
+    Skybox skybox;
+    Light globalLight;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +44,8 @@ public class PlControl : MonoBehaviour
         rb=GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         spZ=minSp;
+        skybox = playerCamera.GetComponent<Skybox>();
+        globalLight = globalLightSource.GetComponent<Light>();
     }
 
     private void Update() {
@@ -77,7 +89,7 @@ public class PlControl : MonoBehaviour
                 // Debug.Log("No collision!"+worldDisc.rotation.y);
             }
         }
-		int dx=0, dy=0;
+        int dx=0, dy=0;
 		float mult=1f;
 		if (Input.GetKey("d")){dx++;}
 		if (Input.GetKey("w")){dy--;if(vz<-destroySp){run=true;}if(Mathf.Abs(spZ)<maxSp)spZ+=accel;}
@@ -96,7 +108,7 @@ public class PlControl : MonoBehaviour
         Interactable intt=null;
         foreach(var col in lst)if(col.gameObject.GetComponent<Interactable>().activeI)intt=col.gameObject.GetComponent<Interactable>();
         if(destruTimer>=-23)destruTimer--;
-        if(intt!=null){
+        if(intt!=null){ 
             if(target!=intt){
                 if(target)target.unlightMe();
                 if(destruTimer>0){
@@ -110,6 +122,69 @@ public class PlControl : MonoBehaviour
         }else{
             if(target){target.unlightMe();target=null;}
         }
+
+        // Handling other object's stuff
+        float rotation = worldDisc.eulerAngles.y;
+        animator.SetFloat("speed", Mathf.Sqrt(50 * vx * vx + vz * vz));
+
+
+        // Selecting day/night depending on disk angle with smooth transitions each 90 degrees
+        if (rotation > 270f)
+        {
+            globalLight.color = new Color(93f / 255f, 113f / 255f, 255f / 255f);
+            globalLight.intensity = 0.3f;
+        }
+        else if (rotation > 180f && rotation < 270f)
+        {
+            globalLight.color = new Color((255f - 162f * (rotation - 180f) / 90f) / 255f, (255f - 142f * (rotation - 180f) / 90f) / 255f, 255f / 255f);
+            globalLight.intensity = 1.4f - 1.1f * (rotation - 180f) / 90f;
+        }
+        else if (rotation > 90f && rotation < 180f) {
+            globalLight.color = new Color(1.0f, 1.0f, 1.0f);
+            globalLight.intensity = 1.4f;
+        }
+        else if (rotation > 0f)
+        {
+            globalLight.color = new Color((93f + 162f * rotation / 90f) / 255f, (113f + 142f * rotation / 90f) / 255f, 255f / 255f);
+            globalLight.intensity = 0.3f + 1.1f * rotation / 90f;
+        }
+
+        if (rotation > 270f)
+        {
+            skybox.material = skyboxNight;
+        }
+        else if (rotation > 240f && rotation < 270f)
+        {
+            skybox.material = skyboxTransitionDarker;
+        }
+        else if (rotation > 210f && rotation < 240f)
+        {
+            skybox.material = skyboxTransition;
+        }
+        else if (rotation > 180f && rotation < 210f)
+        {
+            skybox.material = skyboxTransitionLighter;
+        }
+        else if (rotation > 90f && rotation < 180f)
+        {
+            skybox.material = skyboxDay;
+        }
+        else if (rotation > 30f && rotation < 90f)
+        {
+            skybox.material = skyboxTransitionLighter;
+        }
+        else if (rotation > 0f && rotation < 60f)
+        {
+            skybox.material = skyboxTransition;
+        }
+        else if (rotation > 0f && rotation < 30f)
+        {
+            skybox.material = skyboxTransitionDarker;
+        }
+
+        skybox.material.SetFloat("_Rotation", worldDisc.eulerAngles.y);
+
+        //skybox.material.SetFloat("_Exposure", 1.5f - 1.2f * rotation / 360);
     }
     void destroyThing(Interactable thing){
         partiDestr.GetComponent<ParticleSystem>().Emit(15);
