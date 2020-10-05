@@ -27,8 +27,9 @@ public class Floors : MonoBehaviour
         }
         if(inside!=newins){
             inside=newins;
+            Debug.Log(newins);
             for(int i=0;i<floors.Length;i++){
-                    DisableAllRenderers(floors[i],i<inside);
+                    DisableAllRenderers(floors[i],i<=inside);
                 }
         }
     }
