@@ -35,6 +35,7 @@ public class PlControl : MonoBehaviour
     float worldMin = -9,worldMax = 5;
     Skybox skybox;
     Light globalLight;
+    Vector3 startDisc,startRotDisc,strtMyPos;
 
     // Start is called before the first frame update
     void Start()
@@ -47,10 +48,18 @@ public class PlControl : MonoBehaviour
         spZ=minSp;
         skybox = playerCamera.GetComponent<Skybox>();
         globalLight = globalLightSource.GetComponent<Light>();
+        startDisc=worldDisc.position;
+        startRotDisc=worldDisc.eulerAngles;
+        strtMyPos=transform.position;
     }
 
     private void Update() {
         
+		if (Input.GetKeyDown("r")){
+            worldDisc.position+=startDisc;
+            worldDisc.eulerAngles = startRotDisc;
+            transform.position=strtMyPos;
+        }
 		if (Input.GetKeyDown("e")){
             // ePressed=true;
             if(target){
