@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Liv : InterPerson
+public class BossNPC : InterPerson
 {
     public InterMoving door;
     void Start()

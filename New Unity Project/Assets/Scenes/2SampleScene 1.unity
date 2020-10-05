@@ -1082,6 +1082,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  maxTimer: 20
   dir: {x: 0, y: 19.99, z: -0.09}
 --- !u!65 &175034636
 BoxCollider:
@@ -1770,6 +1771,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  maxTimer: 20
   dir: {x: 0, y: 13.67, z: -3.05}
 --- !u!65 &217584587
 BoxCollider:
@@ -3055,7 +3057,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh51006
+  m_Name: pb_Mesh15214
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -15033,6 +15035,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  maxTimer: 20
 --- !u!65 &1098586526
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19065,6 +19068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timer: 0
+  maxTimer: 20
   dir: {x: 0, y: 18.84, z: -0.12}
 --- !u!65 &1951886881
 BoxCollider:

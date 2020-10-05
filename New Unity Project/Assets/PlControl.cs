@@ -30,7 +30,6 @@ public class PlControl : MonoBehaviour
     [SerializeField]
     int destruTimer=-23;
     List<Interactable> interList=new List<Interactable>();
-    int dayNum=0;
     public bool wasOthSide=false;
     float worldMin = -9,worldMax = 5;
     Skybox skybox;
@@ -202,8 +201,14 @@ public class PlControl : MonoBehaviour
         Debug.Log("SIze  "+interList.Count);
     }
     public void startNextDay(){
-        dayNum++;
-        Debug.Log("________NEW DAY__________"+dayNum);
-        foreach(var intr in interList)intr.startNewDay(dayNum);
+        DAY.n++;
+        Debug.Log("________NEW DAY__________"+DAY.n);
+        foreach(var intr in interList)intr.startNewDay(DAY.n);
     }
+}
+
+public static class DAY{
+    public static int n=0;
+    public static int tower=0;
+
 }

@@ -62,6 +62,6 @@ public class InterMoving : Interactable
   {
     tran.localPosition=strtPos;
     targPos=strtPos+dir;
-      
+    base.startNewDay(day);
   }
 }
