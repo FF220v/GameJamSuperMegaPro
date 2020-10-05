@@ -43,7 +43,7 @@ public class BarmanNPC : InterPerson
                     switch(state){
                         case 0:str=(Random.value>.5)?"Evening, Sal.":"Sal."; break;
                         case 1:str=(Random.value>.5)?"As always, right?":"Waht to try something new?"; break;
-                        case 5:str="Take care"; jumps.gameObject.SetActive(true);break;
+                        case 2:str=(Random.value>.5)?"Take care":"Go rest now"; jumps.gameObject.SetActive(true);break;
                         default: break;
                     }
 
@@ -56,6 +56,7 @@ public class BarmanNPC : InterPerson
     public override void startNewDay(int day)
     {
         base.startNewDay(day);
-        
+        if(DAY.tower==0)
+            jumps.gameObject.SetActive(false);
     }
 }
