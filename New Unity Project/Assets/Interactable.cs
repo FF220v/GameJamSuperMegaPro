@@ -23,6 +23,6 @@ public abstract class Interactable : MonoBehaviour
     }
     public virtual void startNewDay(int day){
         
-        gameObject.SetActive(true);
+        // gameObject.SetActive(true);
     }
 }

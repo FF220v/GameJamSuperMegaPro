@@ -28,4 +28,9 @@ public class InterPerson : Interactable
             txt.text=ln.str;
         }
     }
+    public override void startNewDay(int day)
+    {
+        di.state=0;
+        
+    }
 }
