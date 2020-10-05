@@ -38,6 +38,7 @@
   <ItemGroup>
      <Compile Include="Assets\BedField.cs" />
      <Compile Include="Assets\CanvDialog.cs" />
+     <Compile Include="Assets\DiscSound.cs" />
      <Compile Include="Assets\Field.cs" />
      <Compile Include="Assets\Floors.cs" />
      <Compile Include="Assets\FlyField.cs" />
