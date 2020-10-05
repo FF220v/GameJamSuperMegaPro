@@ -52,6 +52,7 @@
      <Compile Include="Assets\NPC\BarmanNPC.cs" />
      <Compile Include="Assets\NPC\BossNPC.cs" />
      <Compile Include="Assets\NPC\DevilNPC.cs" />
+     <Compile Include="Assets\NPC\PCNPC.cs" />
      <Compile Include="Assets\NPC\SellerNPC.cs" />
      <Compile Include="Assets\PlCamera.cs" />
      <Compile Include="Assets\PlControl.cs" />

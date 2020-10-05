@@ -7,18 +7,20 @@ public class BossNPC : InterPerson
     public InterMoving door1;
     public InterMoving door21;
     public InterMoving door22;
-    public InterPC pc;
+    public PCNPC pc;
+    public GameObject car;
     void Start()
     {
         base.Start();
-        di=new MyDialog(door1,door21,door22,pc);
+        di=new MyDialog(door1,door21,door22,pc,car);
     }
     class MyDialog:Dialog{
         Interactable door1;
         Interactable door21;
         Interactable door22;
-        InterPC pc;
-        public MyDialog(Interactable doora1,Interactable doora2,Interactable doora3,InterPC pcc){door1=doora1;door21=doora2;door22=doora3;pc=pcc;}
+        PCNPC pc;
+        GameObject car;
+        public MyDialog(Interactable doora1,Interactable doora2,Interactable doora3,PCNPC pcc,GameObject cara){door1=doora1;door21=doora2;door22=doora3;pc=pcc;car=cara;}
         public override DLine getNextLine(int val=0){
             string str="";
             int code=0, nexts=state+1;
@@ -29,7 +31,7 @@ public class BossNPC : InterPerson
                         case 1:str="to inform you"; break;
                         case 2: str="that you are promoted"; break;
                         case 3: str="to the Second floor."; break;
-                        case 4:str="Have a nice life."; nexts=0;if(door21.activeI)break; door1.activeI=true; door1.interact();door21.activeI=true; door21.interact();door22.activeI=true; door22.interact(); break;
+                        case 4:str="Have a nice life."; nexts=0;if(door21.activeI)break; door1.activeI=true; door1.interact();door21.activeI=true; door21.interact();door22.activeI=true; door22.interact(); car.SetActive(true); break;
                         default: break;
                     }
                 break;
