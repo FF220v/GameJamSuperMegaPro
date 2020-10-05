@@ -26,6 +26,7 @@ public class InterPerson : Interactable
         }else{
             Debug.Log(aname+":"+ln.str);
             txt.text=ln.str;
+            if(!ln.str.Equals(""))player.playS("talk");
         }
     }
     public override void startNewDay(int day)

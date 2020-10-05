@@ -4,8 +4,11 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
+    protected AudPlayer player;
     protected void Start() {
+
         GameObject.FindObjectOfType<PlControl>().addInter(this);
+        player=GameObject.FindObjectOfType<AudPlayer>();
     }
     public bool activeI=true;
     public virtual void lightMe(){

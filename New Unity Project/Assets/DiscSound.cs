@@ -9,7 +9,7 @@ public class DiscSound : MonoBehaviour
     public AudioClip backBar;
     public AudioClip backDream;
     public AudioSource src;
-    public float ang1,ang2,ang3,ang4,ang5;
+    public float ang1,ang2,ang3;//,ang4,ang5
     Transform tr;
     // Start is called before the first frame update
     void Start()
@@ -20,16 +20,16 @@ public class DiscSound : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!src.isPlaying){
             float ay=transform.rotation.eulerAngles.y;
-            Debug.Log(" ay "+ay);
-            if(ay<ang1||ay>ang5){
+            // Debug.Log(" ay "+ay);
+        if(!src.isPlaying){
+            if(ay>ang1){
                 src.PlayOneShot(backHome);
-            }else if(ay<ang2){
+            }else if(ay>ang2){
                 src.PlayOneShot(backTower);
-            }else if(ay<ang3){
+            }else if(ay>ang3){
                 src.PlayOneShot(backBar);
-            }else if(ay<ang4){
+            }else{
                 src.PlayOneShot(backDream);
             }
         }

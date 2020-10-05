@@ -57,6 +57,8 @@ public class InterMoving : Interactable
     public override void interact(int val=0){
         Debug.Log("Interaction! MOVING "+targPos);
         move=true;
+        
+        player.playS("door");
     }
   public override void startNewDay(int day)
   {

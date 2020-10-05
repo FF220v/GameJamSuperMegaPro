@@ -62,6 +62,7 @@ public class PlControl : MonoBehaviour
         }
 		if (Input.GetKeyDown(KeyCode.Space) && Physics.CheckBox(transform.position-Vector3.up*transform.localScale.y*.5f,transform.localScale*.1f,Quaternion.identity,worldlayer)){
            rb.velocity=new Vector3(0,jump,0);
+           GetComponent<AudioSource>().Play();
         }
     }
 
