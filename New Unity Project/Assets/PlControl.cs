@@ -12,6 +12,9 @@ public class PlControl : MonoBehaviour
     public Material skyboxNight;
     public Material skyboxDay;
     public Material skyboxTransition;
+    public Material skyboxTransitionLighter;
+    public Material skyboxTransitionDarker;
+
     float freePosX, freePosY, vx, vz;//prefreePosX, prefreePosY,
     bool ePressed=false;
     Interactable target=null;
@@ -81,7 +84,7 @@ public class PlControl : MonoBehaviour
         Collider[] lst=Physics.OverlapSphere(transform.position,1.5f,interLayer);
         Interactable intt=null;
         foreach(var col in lst)if(col.gameObject.GetComponent<Interactable>().activeI)intt=col.gameObject.GetComponent<Interactable>();
-        if(intt!=null){
+        if(intt!=null){ 
             if(target!=intt){
                 if(target)target.unlightMe();
                 target=intt;
@@ -101,24 +104,53 @@ public class PlControl : MonoBehaviour
         {
             globalLight.color = new Color(93f / 255f, 113f / 255f, 255f / 255f);
             globalLight.intensity = 0.3f;
-            skybox.material = skyboxNight;
         }
         else if (rotation > 180f && rotation < 270f)
         {
             globalLight.color = new Color((255f - 162f * (rotation - 180f) / 90f) / 255f, (255f - 142f * (rotation - 180f) / 90f) / 255f, 255f / 255f);
             globalLight.intensity = 1.4f - 1.1f * (rotation - 180f) / 90f;
-            skybox.material = skyboxTransition;
         }
         else if (rotation > 90f && rotation < 180f) {
             globalLight.color = new Color(1.0f, 1.0f, 1.0f);
             globalLight.intensity = 1.4f;
-            skybox.material = skyboxDay;
         }
         else if (rotation > 0f)
         {
             globalLight.color = new Color((93f + 162f * rotation / 90f) / 255f, (113f + 142f * rotation / 90f) / 255f, 255f / 255f);
             globalLight.intensity = 0.3f + 1.1f * rotation / 90f;
+        }
+
+        if (rotation > 270f)
+        {
+            skybox.material = skyboxNight;
+        }
+        else if (rotation > 240f && rotation < 270f)
+        {
+            skybox.material = skyboxTransitionDarker;
+        }
+        else if (rotation > 210f && rotation < 240f)
+        {
             skybox.material = skyboxTransition;
+        }
+        else if (rotation > 180f && rotation < 210f)
+        {
+            skybox.material = skyboxTransitionLighter;
+        }
+        else if (rotation > 90f && rotation < 180f)
+        {
+            skybox.material = skyboxDay;
+        }
+        else if (rotation > 30f && rotation < 90f)
+        {
+            skybox.material = skyboxTransitionLighter;
+        }
+        else if (rotation > 0f && rotation < 60f)
+        {
+            skybox.material = skyboxTransition;
+        }
+        else if (rotation > 0f && rotation < 30f)
+        {
+            skybox.material = skyboxTransitionDarker;
         }
 
         skybox.material.SetFloat("_Rotation", worldDisc.eulerAngles.y);
