@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class InterMoving : Interactable
 {
-    Vector3 strtPos, targPos, strtRot, targRot;
+    [SerializeField]
+    Vector3 strtPos, lastPos, targPos, targRot;//, strtRot
     bool move=false, pause=false;
     public float speed=1f;
     public Vector3 dir=Vector3.right;
-    Transform par;
+    Transform tran;
     // public LayerMask playerLayer;
     void Start()
     {
-        par=transform;
-        strtPos=par.localPosition;
-        strtRot=par.rotation.eulerAngles;
+        base.Start();
+        tran=transform;
+        strtPos=tran.localPosition;
+        // strtRot=tran.rotation.eulerAngles;
         targPos=strtPos+dir;
-        Debug.Log("tar "+strtPos+" "+targPos);
+        lastPos=strtPos;
+        // Debug.Log("tar "+strtPos+" "+targPos);
     }
 
     // Update is called once per frame
@@ -24,17 +27,21 @@ public class InterMoving : Interactable
     {
         // Debug.Log("par st tar "+par.localPosition+" "+strtPos+" "+targPos);
         if(move&&!pause){
-            Vector3 dif=targPos-par.localPosition;
+            Vector3 dif=targPos-tran.localPosition;
             if(Mathf.Abs(dif.x)<=.05f&&Mathf.Abs(dif.y)<=.05f&&Mathf.Abs(dif.z)<=.05f){
-                par.localPosition=targPos;
-                targPos=strtPos;
-                strtPos=par.localPosition;
+                tran.localPosition=targPos;
+                targPos=lastPos;
+                lastPos=tran.localPosition;
                 move=false;
             }else{
-                par.position+=new Vector3(Mathf.Clamp(dif.x*speed,-.1f,.1f),Mathf.Clamp(dif.y*speed,-.1f,.1f),Mathf.Clamp(dif.z*speed,-.1f,.1f));
+                // Debug.Log("bef "+dif+" "+tran.position+" "+tran.localPosition+" "+targPos);
+                tran.localPosition+=dif*1f;
+                // tran.position+=new Vector3(Mathf.Clamp(dif.x*speed,-.1f,.1f),Mathf.Clamp(dif.y*speed,-.1f,.1f),Mathf.Clamp(dif.z*speed,-.1f,.1f));
                 if(Physics.CheckBox(transform.position,transform.localScale*.5f,transform.rotation,LayerMask.GetMask("Player")))
-                    par.position-=new Vector3(Mathf.Clamp(dif.x*speed,-.1f,.1f),Mathf.Clamp(dif.y*speed,-.1f,.1f),Mathf.Clamp(dif.z*speed,-.1f,.1f));
-                // Debug.Log(" "+dif);
+                    tran.localPosition-=dif*1f;
+                    // tran.position-=new Vector3(Mathf.Clamp(dif.x*speed,-.1f,.1f),Mathf.Clamp(dif.y*speed,-.1f,.1f),Mathf.Clamp(dif.z*speed,-.1f,.1f));
+                // Debug.Log("aft "+dif+" "+tran.position+" "+tran.localPosition+" "+targPos);
+                // Debug.Log("aft "+tran.position);
             }
         }
     }
@@ -48,7 +55,13 @@ public class InterMoving : Interactable
     // }
     
     public override void interact(int val=0){
-        Debug.Log("Interaction! MOVING");
+        Debug.Log("Interaction! MOVING "+targPos);
         move=true;
     }
+  public override void startNewDay(int day)
+  {
+    tran.localPosition=strtPos;
+    targPos=strtPos+dir;
+      
+  }
 }

@@ -8,6 +8,7 @@ public class Liv : InterPerson
     // Start is called before the first frame update
     void Start()
     {
+        base.Start();
         di=new LivDialog(door);
     }
     class LivDialog:Dialog{

@@ -5,13 +5,25 @@ using UnityEngine;
 public class PlControl : MonoBehaviour
 {
     public Transform worldDisc;
-    public float spX=1f, spY=1f, friction=.9f, jump=10f;
+    public float spX=1f, spZ=1f, friction=.9f, jump=10f;
+    public float maxSp=3f, minSp=1f, accel=.1f, destroySp=2f;
     public LayerMask worldlayer=-1, interLayer=-1;
-    float freePosX, freePosY, vx, vz;//prefreePosX, prefreePosY,
+    [SerializeField]
+    float vx, vz;//prefreePosX, prefreePosY,
+    float freePosX, freePosY;
     bool ePressed=false;
+    [SerializeField]
+    bool run=false;
     Interactable target=null;
     Rigidbody rb;
     Animator animator;
+    public GameObject partiDestr;
+    public GameObject partiSpeed;
+    [SerializeField]
+    int destruTimer=-23;
+    List<Interactable> interList=new List<Interactable>();
+    int dayNum=0;
+    public bool wasOthSide=false;
 
     // Start is called before the first frame update
     void Start()
@@ -21,13 +33,19 @@ public class PlControl : MonoBehaviour
         freePosY=worldDisc.eulerAngles.y;
         rb=GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        spZ=minSp;
     }
 
     private void Update() {
         
 		if (Input.GetKeyDown("e")){
             // ePressed=true;
-            if(target)target.interact();
+            if(target){
+                if(Mathf.Abs(vz)<destroySp)target.interact();// && (Mathf.Abs(rb.velocity.y)<.1)
+                else {
+                    destroyThing(target);
+                }
+            } else if(run && destruTimer<=-23)destruTimer=23;
         }
 		if (Input.GetKey(KeyCode.Space) && Physics.CheckBox(transform.position-Vector3.up*transform.localScale.y*.3f,transform.localScale*.3f,Quaternion.identity,worldlayer)){
            rb.velocity=new Vector3(0,jump,0);
@@ -46,6 +64,8 @@ public class PlControl : MonoBehaviour
                 // worldDisc.eulerAngles -= new Vector3(0,vy,0);
                 vx=-0;
                 vz=-vz*.5f;
+                spZ=minSp;
+                run=false;
             }else{
                 // if(prefreePosX!=worldDisc.position.x)prefreePosX=freePosX;
                 // if(prefreePosY!=worldDisc.eulerAngles.y)prefreePosY=freePosY;
@@ -53,38 +73,60 @@ public class PlControl : MonoBehaviour
                 freePosY=worldDisc.eulerAngles.y;
                 worldDisc.position+=new Vector3(vx,0,0);
                 worldDisc.eulerAngles += new Vector3(0,vz,0);
-                // Debug.Log("No collision!");
+                if(worldDisc.eulerAngles.y>100&&worldDisc.eulerAngles.y<200) wasOthSide=true;
+                // Debug.Log("No collision!"+worldDisc.rotation.y);
             }
         }
 		int dx=0, dy=0;
 		float mult=1f;
 		if (Input.GetKey("d")){dx++;}
-		if (Input.GetKey("w")){dy--;}
+		if (Input.GetKey("w")){dy--;if(vz<-destroySp){run=true;}if(Mathf.Abs(spZ)<maxSp)spZ+=accel;}
 		if (Input.GetKey("a")){dx--;}
-		if (Input.GetKey("s")){dy++;}
+		if (Input.GetKey("s")){dy++;run=false; spZ=minSp;}
 		if((dx+dy)%2==0)mult=0.7f; 
         vx=(vx-dx*mult*spX*.01f)*friction;
-        vz=(vz+dy*mult*spY*.01f)*friction;
+        if(!run){vz=(vz+dy*mult*spZ*.01f)*friction;if(dy==0)spZ=minSp;}
+        else {vz=(vz+dy*mult*spZ*.01f);if(dy!=0)vz*=friction;}
         animator.SetFloat("speed", Mathf.Sqrt(50 * vx * vx + vz * vz));
 
+        if(run)partiSpeed.GetComponent<ParticleSystem>().Emit(1);
 		// if (ePressed){
         //     ePressed=false;
-        Collider[] lst=Physics.OverlapSphere(transform.position,1.5f,interLayer);
+        Collider[] lst=Physics.OverlapSphere(transform.position,1f,interLayer);
         Interactable intt=null;
         foreach(var col in lst)if(col.gameObject.GetComponent<Interactable>().activeI)intt=col.gameObject.GetComponent<Interactable>();
+        if(destruTimer>=-23)destruTimer--;
         if(intt!=null){
             if(target!=intt){
                 if(target)target.unlightMe();
-                target=intt;
-                target.lightMe();
+                if(destruTimer>0){
+                    destruTimer=-23;
+                    destroyThing(intt);
+                }else {
+                    target=intt;
+                    target.lightMe();
+                }
             }
         }else{
             if(target){target.unlightMe();target=null;}
         }
     }
+    void destroyThing(Interactable thing){
+        partiDestr.GetComponent<ParticleSystem>().Emit(15);
+        thing.justDestroy();
+    }
     public void addSpeed(Vector3 val){
         rb.velocity+=Vector3.up*val.y;
         vx+=val.x;
         vz+=val.z;
+    }
+    public void addInter(Interactable obj){
+        interList.Add(obj);
+        Debug.Log("SIze  "+interList.Count);
+    }
+    public void startNextDay(){
+        dayNum++;
+        Debug.Log("________NEW DAY__________"+dayNum);
+        foreach(var intr in interList)intr.startNewDay(dayNum);
     }
 }

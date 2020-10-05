@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class Interactable : MonoBehaviour
 {
+    protected void Start() {
+        GameObject.FindObjectOfType<PlControl>().addInter(this);
+    }
     public bool activeI=true;
     public virtual void lightMe(){
         GetComponent<Renderer>().material.color += new Color(.3f,.3f,.3f);
@@ -13,5 +16,13 @@ public abstract class Interactable : MonoBehaviour
     }
     public virtual void interact(int val=0){
         Debug.Log("Interaction!");
+    }
+    public virtual void justDestroy(){
+        gameObject.SetActive(false);
+        Debug.Log("Destruction");
+    }
+    public virtual void startNewDay(int day){
+        
+        gameObject.SetActive(true);
     }
 }
